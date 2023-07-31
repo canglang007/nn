@@ -25,7 +25,7 @@ class CNN(nn.Module):
          32*32,填充后是34*34
          2.BatchNorm2d是做数据的归一化处理，把数据从比较偏的分布拉回比较标准的分布
          3.relu是激活函数
-         4.MaxPool2d池化作用
+         4.MaxPool2d池化作用，是最大池化，还有平均池化
         """
         self.layers1 = nn.Sequential(
 
