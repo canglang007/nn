@@ -33,7 +33,7 @@ class CNN(nn.Module):
             # Conv2d代表二位卷积，卷积核大小为3，stride是步长，padding表示图像填充，比如原始图像是
             #  32*32,填充后是34*34
 
-            nn.Conv2d(1, 16, kernel_size=3, stride=1, padding=1),# 32+2*1-3+1=32
+            nn.Conv2d(1, 16, kernel_size=3, stride=1, padding=1),# (32-3+2*1)/1+1=32
             nn.BatchNorm2d(16),   # 进行数据的归一化处理，num_features：一般输入参数为batch_size*num_features*height*width，即为其中特征的数量
             nn.ReLU(inplace=True) # 激活函数
         )
@@ -41,22 +41,23 @@ class CNN(nn.Module):
             nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1),# 32+2*1-3+1=32
             nn.BatchNorm2d(32),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.MaxPool2d(kernel_size=2, stride=2)   #o=(32-2)/2+1=16
         )
         self.layers3 = nn.Sequential(
-            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1), # 14+2*1-3+1=14
+            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1), # 16+2*1-3+1=16
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2) # 14/2=7.输出为7*7？
+            nn.MaxPool2d(kernel_size=2, stride=2) # O=(16-2)/2+1=8
         )
         self.layers4 = nn.Sequential(
-            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1), # O=8+2*1-3+1=8
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
 
         )
+        # fc：fully conneted
         self.fc = nn.Sequential(
-            nn.Linear(7 * 7 * 128, 1024),
+            nn.Linear(8 * 8 * 128, 1024),
             nn.ReLU(inplace=True),
             nn.Linear(1024, 100),
             nn.ReLU(inplace=True),
